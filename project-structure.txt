@@ -1,0 +1,94 @@
+.
+├── Dockerfile
+├── eslint.config.mjs
+├── next-env.d.ts
+├── next.config.js
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── project-structure.txt
+├── public
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── test-widget.html
+│   ├── vercel.svg
+│   ├── widget.js
+│   └── window.svg
+├── README.md
+├── src
+│   ├── app
+│   │   ├── admin
+│   │   │   └── manage-companies
+│   │   │       ├── components
+│   │   │       │   ├── ApplicationsList.tsx
+│   │   │       │   ├── ChatButtonCustomizer.tsx
+│   │   │       │   ├── CompanyForm.tsx
+│   │   │       │   ├── CompanyList.tsx
+│   │   │       │   ├── CompanyPagesManager.tsx
+│   │   │       │   ├── EditPageModal.tsx
+│   │   │       │   └── SidebarNav.tsx
+│   │   │       ├── layout.tsx
+│   │   │       └── page.tsx
+│   │   ├── api
+│   │   │   ├── admin
+│   │   │   │   ├── add-company
+│   │   │   │   │   └── route.ts
+│   │   │   │   ├── archive-company
+│   │   │   │   │   └── route.ts
+│   │   │   │   ├── companies
+│   │   │   │   │   └── route.ts
+│   │   │   │   ├── company-pages
+│   │   │   │   │   ├── add
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   ├── delete
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   ├── route.ts
+│   │   │   │   │   └── update
+│   │   │   │   │       └── route.ts
+│   │   │   │   ├── naics
+│   │   │   │   │   └── route.ts
+│   │   │   │   ├── tools
+│   │   │   │   │   ├── chat-agent
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   ├── clean-html
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   ├── get-applications
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   ├── raw-html
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   ├── save-application
+│   │   │   │   │   │   └── route.ts
+│   │   │   │   │   └── structured-html
+│   │   │   │   │       └── route.ts
+│   │   │   │   ├── update-chat-button
+│   │   │   │   │   └── route.ts
+│   │   │   │   └── update-company
+│   │   │   │       └── route.ts
+│   │   │   ├── public
+│   │   │   │   └── company-id
+│   │   │   │       └── route.ts
+│   │   │   └── widget-config
+│   │   │       └── route.ts
+│   │   ├── chat
+│   │   │   └── page.tsx
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── page.module.css
+│   │   └── page.tsx
+│   ├── components
+│   │   └── chat
+│   │       └── ChatTranscriptModal.tsx
+│   └── lib
+│       ├── chat-agent
+│       │   └── promptBuilder.ts
+│       ├── types
+│       │   └── types.ts
+│       └── utils
+│           ├── db.ts
+│           └── emailService.ts
+├── tailwind.config.js
+└── tsconfig.json
+
+36 directories, 56 files
