@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
     return new NextResponse(JSON.stringify({ error: 'Missing company_id' }), {
       status: 400,
       headers: {
+        'Content-Type': 'application/json', 
         'Access-Control-Allow-Origin': origin || '*',
         'Vary': 'Origin',
       },
@@ -39,6 +40,7 @@ export async function GET(req: NextRequest) {
       return new NextResponse(JSON.stringify({ error: 'Company not found or inactive' }), {
         status: 404,
         headers: {
+          'Content-Type': 'application/json', 
           'Access-Control-Allow-Origin': origin || '*',
           'Vary': 'Origin',
         },
@@ -46,16 +48,27 @@ export async function GET(req: NextRequest) {
     }
 
     const normalize = (host: string) => host.replace(/^www\./, '').toLowerCase();
+    const isDevelopment = process.env.NODE_ENV === 'development';
 
     const originHostname = origin ? normalize(new URL(origin).hostname) : '';
     const allowedHostname = company.website_url ? normalize(new URL(company.website_url).hostname) : '';
-    const isOriginAllowed = originHostname === allowedHostname;
+
+    const isOriginAllowed = !origin || // Allow requests without origin (direct API calls)
+      originHostname === allowedHostname || // Exact domain match
+      isDevelopment || // Allow all origins in development
+      originHostname === 'localhost' || // Allow localhost testing
+      originHostname.endsWith('.localhost') || // Allow *.localhost
+      originHostname === '127.0.0.1' || // Allow local IP
+      originHostname === 'cdn.ondework.com' || 
+      origin.includes('jobs.ondework.com'); // Allow calls from your own domain
 
     if (!isOriginAllowed) {
       console.warn(`⚠️ Origin not allowed: ${originHostname} (expected: ${allowedHostname})`);
+      console.warn(`⚠️ Full origin: ${origin}`);
       return new NextResponse(JSON.stringify({ error: 'Origin not authorized' }), {
         status: 403,
         headers: {
+          'Content-Type': 'application/json', 
           'Access-Control-Allow-Origin': origin || '*',
           'Vary': 'Origin',
         },
@@ -70,6 +83,7 @@ export async function GET(req: NextRequest) {
     }), {
       status: 200,
       headers: {
+        'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': origin || '*',
         'Access-Control-Allow-Methods': 'GET, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
@@ -86,9 +100,24 @@ export async function GET(req: NextRequest) {
     }), {
       status: 500,
       headers: {
+        'Content-Type': 'application/json', 
         'Access-Control-Allow-Origin': origin || '*',
         'Vary': 'Origin',
       },
     });
   }
+}
+
+export async function OPTIONS(req: NextRequest) {
+  const origin = req.headers.get('origin') || '*';
+  return new NextResponse(null, {
+    status: 204,
+    headers: {
+      'Content-Type': 'application/json', 
+      'Access-Control-Allow-Origin': origin,
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Vary': 'Origin',
+    },
+  });
 }

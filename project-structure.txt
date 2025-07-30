@@ -8,6 +8,7 @@
 ├── postcss.config.js
 ├── project-structure.txt
 ├── public
+│   ├── enhance.js
 │   ├── file.svg
 │   ├── globe.svg
 │   ├── next.svg
@@ -91,4 +92,4 @@
 ├── tailwind.config.js
 └── tsconfig.json
 
-36 directories, 56 files
+36 directories, 57 files

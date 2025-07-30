@@ -12,6 +12,22 @@ export async function POST(req: NextRequest) {
   try {
     const { company_id, user_input, chat_history } = await req.json();
 
+    // 🧼 OpenAI Moderation Check
+    const moderationResponse = await openai.moderations.create({
+      input: user_input
+    });
+
+    const flagged = moderationResponse.results[0]?.flagged;
+    const categories = moderationResponse.results[0]?.categories;
+
+    if (flagged) {
+      return NextResponse.json({
+        assistant_message: `I'm here to help with respectful, job-related conversations only. Please keep things professional.`,
+        token_usage: 0,
+        flagged_categories: categories
+      }, { status: 400 });
+    }
+
     if (!company_id || !user_input) {
       return NextResponse.json({ error: 'Missing company_id or user_input' }, { status: 400 });
     }
@@ -148,6 +164,32 @@ export async function POST(req: NextRequest) {
       primaryLocation,
       averageWage
     });
+
+    // 👇 Block vague messages, but only after the first message
+    const userTurns = (chat_history || []).filter((msg: ChatCompletionMessageParam) => msg.role === 'user').length;
+    const isFirstMessage = userTurns === 0;
+
+    if (!isFirstMessage && user_input.trim().split(/\s+/).length < 2) {
+      return NextResponse.json({
+        assistant_message: `Could you share a little more detail about your experience or interests?`,
+        token_usage: 0
+      });
+    }
+
+    // 📝 Add system instructions for topic focus
+    messages[0].content += `
+
+    You must only discuss topics related to:
+
+    - This company's work, projects, and culture (from the context provided).
+    - The user's experience, certifications, and job readiness.
+    - The company's industry or NAICS classification.
+
+    If the user goes off-topic, politely redirect with:
+
+    "I'm here to help with job-related questions for ${companyName}. Let’s stick to that."
+
+    Do not respond to political, personal, or unrelated questions. Do not speculate or make up information not provided.`;
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o',

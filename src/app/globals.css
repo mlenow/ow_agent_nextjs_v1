@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.return-to-site-button {
+  display: none;
+}
+
+:root:not([data-is-modal='1']) .return-to-site-button {
+  display: block;
+}

@@ -31,6 +31,12 @@ export default function ChatTranscriptModal({ companyId, companyName, onClose }:
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
 
+  const [hasHydrated, setHasHydrated] = useState(false);
+
+  useEffect(() => {
+    setHasHydrated(true);
+  }, []);
+
   const getHistoryForOpenAI = () => {
     return chatLog.map(entry => ({
       role: entry.sender === 'user' ? 'user' : 'assistant',
@@ -139,6 +145,8 @@ export default function ChatTranscriptModal({ companyId, companyName, onClose }:
       });
     }
   }, [chatLog]);
+
+  if (!hasHydrated) return null;
 
   return (
       <div className="bg-white rounded-lg shadow-lg p-4 w-full max-w-md mx-auto h-[90vh] flex flex-col border border-gray-200">
