@@ -237,7 +237,7 @@ export default function ChatTranscriptModal({ companyId, companyName, onClose }:
 
         {submitted && (
           <div className="mt-4 text-green-700 font-semibold text-sm text-center">
-            ✅ Transcript submitted successfully!
+            ✅ Received!
           </div>
         )}
 

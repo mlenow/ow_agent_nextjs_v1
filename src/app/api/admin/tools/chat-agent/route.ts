@@ -165,17 +165,6 @@ export async function POST(req: NextRequest) {
       averageWage
     });
 
-    // 👇 Block vague messages, but only after the first message
-    const userTurns = (chat_history || []).filter((msg: ChatCompletionMessageParam) => msg.role === 'user').length;
-    const isFirstMessage = userTurns === 0;
-
-    if (!isFirstMessage && user_input.trim().split(/\s+/).length < 2) {
-      return NextResponse.json({
-        assistant_message: `Could you share a little more detail about your experience or interests?`,
-        token_usage: 0
-      });
-    }
-
     // 📝 Add system instructions for topic focus
     messages[0].content += `
 
