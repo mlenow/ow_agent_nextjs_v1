@@ -71,7 +71,13 @@ export default function ChatButtonCustomizer({ companyId, existingValues }: Chat
   };
 
   const getStandardSnippet = () => {
-    return `<script src="https://cdn.ondework.com/widget.js" data-company-id="${companyId}"></script>`;
+    return `<script
+    id="ondework-widget-loader"
+    async
+    defer
+    data-company-id="${companyId}"
+    src="https://cdn.ondework.com/widget.js">
+  </script>`;
   };
 
   const getEnhancedSnippet = () => {
@@ -80,7 +86,12 @@ export default function ChatButtonCustomizer({ companyId, existingValues }: Chat
   data-company-id="${companyId}">
     ${text}
   </a>
-  <script src="https://cdn.ondework.com/enhance.js" async></script>`;
+  <script
+    id="ondework-enhance-loader"
+    async
+    defer
+    src="https://cdn.ondework.com/enhance.js">
+  </script>`;
   };
 
   const handleCopyStandard = () => {
