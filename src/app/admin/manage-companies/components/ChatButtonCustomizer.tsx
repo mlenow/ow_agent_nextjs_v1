@@ -82,7 +82,7 @@ export default function ChatButtonCustomizer({ companyId, existingValues }: Chat
 
   const getEnhancedSnippet = () => {
     return `<a href="https://jobs.ondework.com/chat?company_id=${companyId}" 
-  class="ondework-widget" 
+  className="ondework-widget" 
   data-company-id="${companyId}">
     ${text}
   </a>

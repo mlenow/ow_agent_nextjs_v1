@@ -47,12 +47,23 @@ export async function POST(req: NextRequest) {
       .input('chat_transcript', transcriptString)
       .query(`
         INSERT INTO tbl_agent_applications (
-          company_id, applicant_name, applicant_email, applicant_phone, chat_transcript, submitted_at
+          company_id,
+          applicant_name,
+          applicant_email,
+          applicant_phone,
+          chat_transcript,
+          submitted_at,
+          status
         ) VALUES (
-          @company_id, @applicant_name, @applicant_email, @applicant_phone, @chat_transcript, GETDATE()
+          @company_id,
+          @applicant_name,
+          @applicant_email,
+          @applicant_phone,
+          @chat_transcript,
+          GETDATE(),
+          'Active'
         )
-      `);
-
+      `)
     // Send the application email
     await sendApplicationEmail(
     company_name,
